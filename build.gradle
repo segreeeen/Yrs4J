@@ -1,0 +1,63 @@
+plugins {
+    id "org.javamodularity.moduleplugin" version "1.8.15"
+}
+
+apply plugin: 'java'
+
+group = 'at.hsol'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Apply common plugins and configurations to all subprojects
+subprojects {
+    apply plugin: 'org.javamodularity.moduleplugin'
+
+    // Define repository where dependencies will be downloaded from
+    repositories {
+        mavenCentral()
+    }
+
+// Common dependencies can be defined here
+// For example, you can define the JUnit test dependency for all projects
+    dependencies {
+        testImplementation 'junit:junit:4.13.2'
+    }
+}
+
+// Applying the Java Library plugin specifically to library projects
+project(':yrs4j-bindings') {
+    apply plugin: 'java-library'
+}
+
+project(':yrs4j-native-linux') {
+    apply plugin: 'java-library'
+}
+
+project(':yrs4j-native-mac') {
+    apply plugin: 'java-library'
+}
+
+project(':yrs4j-native-windows') {
+    apply plugin: 'java-library'
+}

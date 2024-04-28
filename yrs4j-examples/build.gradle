@@ -24,6 +24,8 @@ jar {
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
+    exclude 'module-info.class'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 

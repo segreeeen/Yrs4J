@@ -14,7 +14,7 @@ public class LinuxLibLoader implements LibLoader {
     static {
         File jnaNativeLib = null;
         try {
-            jnaNativeLib = Native.extractFromResourcePath("yrs.so", LinuxLibLoader.class.getClassLoader());
+            jnaNativeLib = Native.extractFromResourcePath("libyrs.so", LinuxLibLoader.class.getClassLoader());
             yrsInstance = Native.load(jnaNativeLib.getAbsolutePath(), YrsLibNativeInterface.class);
         } catch (IOException e) {
             throw new RuntimeException("Your Operating System is not supported", e);

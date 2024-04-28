@@ -17,6 +17,16 @@ dependencies {
     implementation project(':yrs4j-native-linux')
 }
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'at.yrs4j.example.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+
 test {
     useJUnitPlatform()
 }

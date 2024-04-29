@@ -57,6 +57,11 @@ publishing {
             }
         }
     }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+        }
+    }
 }
 
 // Applying the Java Library plugin specifically to library projects

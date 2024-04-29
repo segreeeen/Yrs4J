@@ -2,7 +2,6 @@ plugins {
     id 'java'
 }
 
-apply plugin: 'maven-publish'
 group 'at.yrs4j'
 
 repositories {

@@ -62,16 +62,20 @@ publishing {
 // Applying the Java Library plugin specifically to library projects
 project(':yrs4j-bindings') {
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 }
 
 project(':yrs4j-native-linux') {
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 }
 
 project(':yrs4j-native-mac') {
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 }
 
 project(':yrs4j-native-windows') {
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 }

@@ -21,7 +21,7 @@ test {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        gpr(MavenPublication) {
             from components.java
             groupId = 'at.yrs4j'
             artifactId = 'bindings'

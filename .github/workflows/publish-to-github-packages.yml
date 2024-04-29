@@ -38,6 +38,6 @@ jobs:
       - name: Set executable permissions for Gradlew
         run: chmod +x ./gradlew
       - name: Publish package
-        run: ./gradlew --no-configuration-cache publish
+        run: ./gradlew --no-configuration-cache publish --rerun-tasks
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

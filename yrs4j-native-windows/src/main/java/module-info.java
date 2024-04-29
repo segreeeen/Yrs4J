@@ -1,6 +1,6 @@
-module yrs4j.native_bin.windows {
+module yrs4j.libnative.windows {
     requires yrs4j.bindings;
     requires com.sun.jna;
 
-    exports at.yrs4j.native_lib.windows;
+    exports at.yrs4j.libnative.windows;
 }

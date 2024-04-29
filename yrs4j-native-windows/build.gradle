@@ -2,7 +2,11 @@ plugins {
     id 'java'
 }
 
-group 'at.hsol'
+apply plugin: 'maven-publish'
+
+group 'at.yrs4j'
+
+version = project.nativeWindowsVersion
 
 repositories {
     mavenCentral()
@@ -17,4 +21,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'at.yrs4j'
+            artifactId = 'libnative-windows'  // Unique artifact ID for the subproject
+            version = project.version  // This will use the version defined in the subproject
+        }
+    }
 }

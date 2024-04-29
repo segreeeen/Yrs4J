@@ -2,7 +2,9 @@ plugins {
     id 'java'
 }
 
-group 'at.hsol'
+apply plugin: 'maven-publish'
+
+group 'at.yrs4j'
 
 repositories {
     mavenCentral()
@@ -16,4 +18,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'at.yrs4j'
+            artifactId = 'libnative-mac'
+            version = project.nativeMacVersion
+        }
+    }
 }

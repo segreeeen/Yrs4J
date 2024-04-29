@@ -1,4 +1,4 @@
-package at.yrs4j.native_lib.linux;
+package at.yrs4j.libnative.windows;
 
 import at.yrs4j.api.LibLoader;
 import at.yrs4j.api.YrsLibNativeInterface;
@@ -8,21 +8,22 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class LinuxLibLoader implements LibLoader {
+
+public class WindowsLibLoader implements LibLoader {
     private static final YrsLibNativeInterface yrsInstance;
 
     static {
         File jnaNativeLib = null;
         try {
-            jnaNativeLib = Native.extractFromResourcePath("libyrs.so", LinuxLibLoader.class.getClassLoader());
+            jnaNativeLib = Native.extractFromResourcePath("libyrs.dll", WindowsLibLoader.class.getClassLoader());
             yrsInstance = Native.load(jnaNativeLib.getAbsolutePath(), YrsLibNativeInterface.class);
         } catch (IOException e) {
-            throw new RuntimeException("Your Operating System is not supported", e);
+            throw new RuntimeException(e);
         }
     }
 
-    public static LinuxLibLoader create() {
-        return new LinuxLibLoader();
+    public static WindowsLibLoader create() {
+        return new WindowsLibLoader();
     }
 
     @Override

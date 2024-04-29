@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'at.hsol'
+group 'at.yrs4j'
 version '1.0-SNAPSHOT'
 
 repositories {

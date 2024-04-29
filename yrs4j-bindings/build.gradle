@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group 'at.hsol'
-version '1.0-SNAPSHOT'
+apply plugin: 'maven-publish'
+group 'at.yrs4j'
 
 repositories {
     mavenCentral()
@@ -17,4 +17,15 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'at.yrs4j'
+            artifactId = 'bindings'
+            version = project.bindingsVersion
+        }
+    }
 }

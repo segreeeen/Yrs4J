@@ -1,11 +1,12 @@
 plugins {
     id "org.javamodularity.moduleplugin" version "1.8.15"
+    id 'maven-publish'
 }
 
 apply plugin: 'java'
 
-group = 'at.hsol'
-version = '1.0-SNAPSHOT'
+group = 'at.yrs4j'
+version = '0.1.0'
 
 sourceCompatibility = '21'
 targetCompatibility = '21'
@@ -42,6 +43,19 @@ subprojects {
 // For example, you can define the JUnit test dependency for all projects
     dependencies {
         testImplementation 'junit:junit:4.13.2'
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/segreeeen/Yrs4J") // Replace USERNAME and REPOSITORY appropriately
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
 

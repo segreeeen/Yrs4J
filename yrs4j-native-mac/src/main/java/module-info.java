@@ -1,3 +1,3 @@
-module yrs4j.native_bin.osx {
+module yrs4j.libnative.mac {
     requires yrs4j.bindings;
 }

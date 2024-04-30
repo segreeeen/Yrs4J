@@ -46,19 +46,6 @@ subprojects {
     }
 }
 
-publishing {
-    repositories {
-        maven {
-            name = 'GitHubPackages'
-            url = uri("https://maven.pkg.github.com/segreeeen/Yrs4J") // Replace USERNAME and REPOSITORY appropriately
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-}
-
 // Applying the Java Library plugin specifically to library projects
 project(':yrs4j-bindings') {
     apply plugin: 'java-library'

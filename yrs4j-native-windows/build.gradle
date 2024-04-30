@@ -30,6 +30,15 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+
+        maven {
+            name = 'FFWNexus'
+            url = 'https://nexus.freie-fantasy-welt.de/repository/libs/'  // Change to your Nexus URL
+            credentials {
+                username = System.getenv("DEPLOYMENT_USER")
+                password = System.getenv("DEPLOYMENT_USER_PASSWD")
+            }
+        }
     }
 
     publications {
@@ -38,6 +47,13 @@ publishing {
             groupId = 'at.yrs4j'
             artifactId = 'libnative-windows'  // Unique artifact ID for the subproject
             version = project.nativeWindowsVersion  // This will use the version defined in the subproject
+        }
+
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = 'at.yrs4j'
+            artifactId = 'libnative-windows'
+            version = project.nativeWindowsVersion
         }
     }
 }

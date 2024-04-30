@@ -30,10 +30,26 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+
+        maven {
+            name = 'FFWNexus'
+            url = 'https://nexus.freie-fantasy-welt.de/repository/libs/'  // Change to your Nexus URL
+            credentials {
+                username = System.getenv("DEPLOYMENT_USER")
+                password = System.getenv("DEPLOYMENT_USER_PASSWD")
+            }
+        }
     }
 
     publications {
         gpr(MavenPublication) {
+            from components.java
+            groupId = 'at.yrs4j'
+            artifactId = 'libnative-linux'
+            version = project.nativeLinuxVersion
+        }
+
+        mavenJava(MavenPublication) {
             from components.java
             groupId = 'at.yrs4j'
             artifactId = 'libnative-linux'

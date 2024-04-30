@@ -7,14 +7,17 @@ version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://nexus.freie-fantasy-welt.de/repository/libs/"  // Change to your Nexus URL
+    }
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    implementation project(':yrs4j-bindings')
-    implementation project(':yrs4j-native-windows')
-    implementation project(':yrs4j-native-linux')
+    implementation 'at.yrs4j:bindings:0.1.0-alpha'
+    implementation 'at.yrs4j:libnative-windows:0.1.0-alpha'
+    implementation 'at.yrs4j:libnative-linux:0.1.0-alpha'
 }
 
 jar {

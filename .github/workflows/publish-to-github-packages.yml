@@ -39,5 +39,7 @@ jobs:
         run: chmod +x ./gradlew
       - name: Publish package
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
+      - name: Publish package to Nexus
+        run: ./gradlew publishAllPublicationsToFFWNexusRepository
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

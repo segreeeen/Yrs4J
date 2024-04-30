@@ -41,3 +41,5 @@ jobs:
         run: ./gradlew publishAllPublicationsToFFWNexusRepository
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEPLOYMENT_USER: ${{ secrets.DEPLOYMENT_USER }}
+          DEPLOYMENT_USER_PASSWD: ${{ secrets.DEPLOYMENT_USER_PASSWD }}

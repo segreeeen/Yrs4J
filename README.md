@@ -11,8 +11,7 @@ This project is split up into 4 subprojects:
 - **yrs4j-native-mac** (not supported yet) - This subproject is planned to include the macOS-specific native libraries
 
 # Usage
-To use Yrs4J add a dependency for the Bindings and for the Native-Lib (may be multiple) your code should run on. 
-Example for gradle:
+To use Yrs4J add a dependency for the Bindings and for the Native-Lib (may be multiple) your code should run on (see *Artifacts & Repository* section below) . 
 
     implementation 'at.yrs4j:bindings:0.1.0-alpha'
     implementation 'at.yrs4j:libnative-windows:0.1.0-alpha'
@@ -33,9 +32,10 @@ If you feel more comfortable using the JNA interface just use the native interfa
 
 As of now you may have to do that anyway since some of the functionality is not implemented as wrapper yet. You can also extend the wrapper layer by extending [AbstractJNAWrapper](https://github.com/segreeeen/Yrs4J/blob/main/yrs4j-bindings/src/main/java/at/yrs4j/wrapper/AbstractJNAWrapper.java).
 
-# Repository
-You need to define the Nexus Repo in your Build Script
-## Maven 
+# Artifacts & Repository
+
+## Repository
+You need to define the repo in your build script to use the dependencies
 
     <repositories>
         <repository>
@@ -43,24 +43,30 @@ You need to define the Nexus Repo in your Build Script
         </repository>
     </repositories>
 
-## Gradle
-
-    repositories {
-        maven {
-            url "https://nexus.freie-fantasy-welt.de/repository/libs/"
-        }
-    }    
-
-# Usage
-
-## Native Libraries
-
-
 ## Bindings
-To include the bindings in your Maven or Gradle project use this artifact:
 
     <dependency>
-      <groupId>at.yrs4j</groupId>
-      <artifactId>bindings</artifactId>
-      <version>0.1.0-alpha</version>
+        <groupId>at.yrs4j</groupId>
+        <artifactId>bindings</artifactId>
+        <version>0.1.0-alpha</version>
     </dependency>
+
+## Native Libs
+
+### Linux
+
+    <dependency>
+        <groupId>at.yrs4j</groupId>
+        <artifactId>libnative-linux</artifactId>
+        <version>0.1.0-alpha</version>
+    </dependency>
+
+### Windows
+    <dependency>
+        <groupId>at.yrs4j</groupId>
+        <artifactId>libnative-windows</artifactId>
+        <version>0.1.0-alpha</version>
+    </dependency>
+
+### Mac
+... Coming soon ...

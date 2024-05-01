@@ -10,17 +10,8 @@ import java.io.IOException;
 
 
 public class WindowsLibLoader implements LibLoader {
-    private static final YrsLibNativeInterface yrsInstance;
-
-    static {
-        File jnaNativeLib = null;
-        try {
-            jnaNativeLib = Native.extractFromResourcePath("libyrs.dll", WindowsLibLoader.class.getClassLoader());
-            yrsInstance = Native.load(jnaNativeLib.getAbsolutePath(), YrsLibNativeInterface.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    private static volatile YrsLibNativeInterface yrsInstance;
+    public static final String LIB_NAME = "libyrs.dll";
 
     public static WindowsLibLoader create() {
         return new WindowsLibLoader();
@@ -28,6 +19,19 @@ public class WindowsLibLoader implements LibLoader {
 
     @Override
     public YrsLibNativeInterface get() {
+        return load();
+    }
+
+    private static synchronized YrsLibNativeInterface load() {
+        if (yrsInstance == null) {
+            File jnaNativeLib;
+            try {
+                jnaNativeLib = Native.extractFromResourcePath(LIB_NAME, WindowsLibLoader.class.getClassLoader());
+                yrsInstance = Native.load(jnaNativeLib.getAbsolutePath(), YrsLibNativeInterface.class);
+            } catch (IOException e) {
+                throw new RuntimeException("Your Operating System is not supported", e);
+            }
+        }
         return yrsInstance;
     }
 }

@@ -4,8 +4,6 @@ import at.yrs4j.api.Yrs4J;
 import at.yrs4j.libnative.windows.WindowsLibLoader;
 import at.yrs4j.utils.EncodingType;
 import at.yrs4j.wrapper.*;
-import at.yrs4j.libnative.linux.LinuxLibLoader;
-
 public class Main {
     public static void main(String[] args) {
         Yrs4J.init(WindowsLibLoader.create());

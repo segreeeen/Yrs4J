@@ -70,3 +70,11 @@ You need to define the repo in your build script to use the dependencies
 
 ### Mac
 ... Coming soon ...
+
+# Considerations 
+While JNI may be a more performant way to access native code from Java, with JNA being said to be up to 13 times slower, I still decided to use JNA over JNI. 
+Using JNI is very time consuming - time I simply don't have. Yrs is quite a big library. For me, it was not a choice between JNA and JNI but rather between having Java bindings and not having Java bindings.
+
+As of now I have not tested Yrs4J in a productive setting. But since my usecase will probably mostly contain decoding and keeping track of state on the serverside - probably asynchronously - the performance overhead will not really be noticeable for the user. 
+
+This is just a hobby project. If you really, really need JNI... Go write Yrs bindings with JNI :)

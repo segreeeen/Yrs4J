@@ -1,6 +1,8 @@
 package at.yrs4j.yrslib;
+
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
+
 import java.util.Arrays;
 import java.util.List;
 /**

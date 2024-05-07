@@ -1,5 +1,7 @@
 package at.yrs4j.yrslib;
+
 import com.sun.jna.Structure;
+
 import java.util.List;
 /**
  * <i>native declaration : libyrs.h:634</i><br>

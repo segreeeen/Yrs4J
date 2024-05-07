@@ -1,7 +1,9 @@
 package at.yrs4j.yrslib;
+
 import com.sun.jna.Structure;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.LongByReference;
+
 import java.util.Arrays;
 import java.util.List;
 /**

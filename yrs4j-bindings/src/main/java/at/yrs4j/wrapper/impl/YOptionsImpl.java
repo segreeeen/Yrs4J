@@ -1,23 +1,21 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
 import at.yrs4j.utils.EncodingType;
 import at.yrs4j.utils.JNAUtils;
-import at.yrs4j.api.Yrs4J;
-import at.yrs4j.utils.EncodingType;
-import at.yrs4j.utils.JNAUtils;
-import at.yrs4j.yrslib.YrsOptions;
+import at.yrs4j.wrapper.AbstractJNAWrapper;
+import at.yrs4j.wrapper.interfaces.YOptions;
 import at.yrs4j.yrslib.YrsOptions;
 import com.sun.jna.Pointer;
 
 public class YOptionsImpl extends AbstractJNAWrapper<YrsOptions> implements YOptions {
 
 
-    YOptionsImpl() {
+    public YOptionsImpl() {
         super(Yrs4J.YRS_INSTANCE.yoptions());
     }
 
-    YOptionsImpl(YrsOptions wrappedObject) {
+    public YOptionsImpl(YrsOptions wrappedObject) {
         super(wrappedObject);
     }
 

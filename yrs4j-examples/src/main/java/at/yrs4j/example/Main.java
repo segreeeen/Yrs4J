@@ -3,14 +3,16 @@ package at.yrs4j.example;
 import at.yrs4j.api.Yrs4J;
 import at.yrs4j.libnative.windows.WindowsLibLoader;
 import at.yrs4j.utils.EncodingType;
-import at.yrs4j.wrapper.*;
+import at.yrs4j.wrapper.interfaces.*;
+
 public class Main {
     public static void main(String[] args) {
         Yrs4J.init(WindowsLibLoader.create());
 
-        example();
+        /*example();
         updateExchangeBasic();
-        yTextBasic();
+        yTextBasic();*/
+        yArrayBasic();
     }
 
     static void example() {
@@ -39,7 +41,7 @@ public class Main {
         System.out.println(str);
     }
 
-    static YDoc createJDocWithId(long id) {
+    static YDoc createYDocWithId(long id) {
         YOptions options = YOptions.create();
         options.setEncoding(EncodingType.Y_OFFSET_UTF16);
         options.setId(id);
@@ -49,11 +51,11 @@ public class Main {
     }
 
     static void updateExchangeBasic() {
-        YDoc d1 = createJDocWithId(1);
+        YDoc d1 = createYDocWithId(1);
         YText txt1 = YText.createFromDoc(d1, "test");
         YTransaction t1 = d1.writeTransaction();
 
-        YDoc d2 = createJDocWithId(2);
+        YDoc d2 = createYDocWithId(2);
         YText txt2 = YText.createFromDoc(d2, "test");
         YTransaction t2 = d2.writeTransaction();
 
@@ -82,7 +84,7 @@ public class Main {
     }
 
     static void yTextBasic() {
-        YDoc YDoc = createJDocWithId(1);
+        YDoc YDoc = createYDocWithId(1);
         YText txt = YText.createFromDoc(YDoc, "text");
         YTransaction txn = YDoc.writeTransaction();
         txt.insert(txn, 0, "hello", null);
@@ -101,6 +103,55 @@ public class Main {
     }
 
     static void yArrayBasic() {
+        YDoc doc = createYDocWithId(1);
+        YArray arr = YArray.createWithDocAndName(doc, "test");
+        YTransaction txn = doc.writeTransaction();
+
+        YInput[] nested = new YInput[2];
+        nested[0] = YInput.createFloat(0.5);
+        nested[1] = YInput.createBool(true);
+        YInput nestedArray = YInput.createYArray(nested);
+
+        YInput[] args = new YInput[3];
+        args[0] = nestedArray;
+        args[1] = YInput.createString("hello");
+        args[2] = YInput.createLong(123);
+
+        arr.insertRange(txn, 0, args);
+
+        YOutput output = arr.get(txn, 0);
+        ValueType type = output.getTagValueType();
+
+        YArray output1 = output.readYArray();
+        output1.len();
+        YOutput output2 = output1.get(txn, 0);
+        double num = output2.readFloat();
+
+        YOutput output3 = output1.get(txn, 1);
+        boolean bool = output3.readBool();
+
+        System.out.println(num);
+        System.out.println(bool);
+        System.out.println(output1.len());
+
+        arr.removeRange(txn, 1, 1);
+
+        System.out.println(arr.len() == 2);
+
+        YArrayIter i = arr.iter(txn);
+
+        YOutput cur = i.next();
+        YArray a = cur.readYArray();
+        System.out.println(a.len() == 2);
+
+        cur = i.next();
+        System.out.println(cur.readLong() == 123);
+
+        cur = i.next();
+        System.out.println(cur == null);
+        i.destroy();
+        txn.commit();
+        doc.destroy();
 
     }
 

@@ -1,11 +1,11 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.interfaces;
 
-import at.yrs4j.yrslib.YrsBranch;
-import at.yrs4j.yrslib.YrsInput;
+import at.yrs4j.wrapper.impl.YTextImpl;
 import at.yrs4j.yrslib.YrsBranch;
 import at.yrs4j.yrslib.YrsInput;
 
 public interface YText extends YBranch {
+
     int len(YTransaction YTransaction);
 
     String string(YTransaction YTransaction);
@@ -20,7 +20,7 @@ public interface YText extends YBranch {
 
     // Interface methods here (as required)
 
-    static YText createFromBranch(YrsBranch wrappedObject) {
+    static YText wrap(YrsBranch wrappedObject) {
         return new YTextImpl(wrappedObject);
     }
 

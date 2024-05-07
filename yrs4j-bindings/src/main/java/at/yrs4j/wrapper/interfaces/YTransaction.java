@@ -1,6 +1,6 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.interfaces;
 
-import at.yrs4j.yrslib.*;
+import at.yrs4j.wrapper.impl.YDocImpl;
 import at.yrs4j.yrslib.YrsDeleteSet;
 import at.yrs4j.yrslib.YrsPendingUpdate;
 

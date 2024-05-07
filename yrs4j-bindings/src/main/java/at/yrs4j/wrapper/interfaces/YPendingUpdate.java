@@ -1,6 +1,5 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.interfaces;
 
-import at.yrs4j.yrslib.YrsStateVector;
 import at.yrs4j.yrslib.YrsStateVector;
 
 public interface YPendingUpdate {

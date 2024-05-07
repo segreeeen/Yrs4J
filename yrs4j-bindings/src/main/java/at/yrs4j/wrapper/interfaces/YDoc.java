@@ -1,5 +1,7 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.interfaces;
 
+import at.yrs4j.wrapper.impl.YDocImpl;
+import at.yrs4j.wrapper.impl.YOptionsImpl;
 import at.yrs4j.yrslib.YrsDoc;
 import at.yrs4j.yrslib.YrsOptions;
 import at.yrs4j.yrslib.YrsTransaction;
@@ -25,7 +27,12 @@ public interface YDoc {
 
     // Factory method with YOptions
     static YDoc createWithOptions(YOptions YOptions) {
-        return new YDocImpl((YrsOptions.ByValue) ((YOptionsImpl) YOptions).wrappedObject);
+        return new YDocImpl((YrsOptions.ByValue) ((YOptionsImpl) YOptions).getWrappedObject());
+    }
+
+    // Factory method with ID
+    static YDoc createWithId(YOptions YOptions) {
+        return new YDocImpl((YrsOptions.ByValue) ((YOptionsImpl) YOptions).getWrappedObject());
     }
 
     // Factory method for wrapping existing YrsDoc

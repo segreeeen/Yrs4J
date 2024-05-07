@@ -1,9 +1,8 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
-import at.yrs4j.api.Yrs4J;
-import at.yrs4j.yrslib.YrsPendingUpdate;
-import at.yrs4j.yrslib.YrsStateVector;
+import at.yrs4j.wrapper.AbstractJNAWrapper;
+import at.yrs4j.wrapper.interfaces.YPendingUpdate;
 import at.yrs4j.yrslib.YrsPendingUpdate;
 import at.yrs4j.yrslib.YrsStateVector;
 

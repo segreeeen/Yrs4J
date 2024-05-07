@@ -1,21 +1,24 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
+import at.yrs4j.wrapper.AbstractJNAWrapper;
+import at.yrs4j.wrapper.interfaces.YDoc;
+import at.yrs4j.wrapper.interfaces.YTransaction;
 import at.yrs4j.yrslib.YrsDoc;
 import at.yrs4j.yrslib.YrsOptions;
 import at.yrs4j.yrslib.YrsTransaction;
 
 public class YDocImpl extends AbstractJNAWrapper<YrsDoc> implements YDoc {
 
-    YDocImpl() {
+    public YDocImpl() {
         super(Yrs4J.YRS_INSTANCE.ydoc_new());
     }
 
-    YDocImpl(YrsOptions.ByValue options) {
+    public YDocImpl(YrsOptions.ByValue options) {
         super(Yrs4J.YRS_INSTANCE.ydoc_new_with_options(options));
     }
 
-    YDocImpl(YrsDoc doc) {
+    public YDocImpl(YrsDoc doc) {
         super(doc);
     }
     @Override

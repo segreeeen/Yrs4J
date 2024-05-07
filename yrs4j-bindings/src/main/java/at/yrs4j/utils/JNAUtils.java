@@ -13,4 +13,24 @@ public class JNAUtils {
         memory.setByte(bytes.length, (byte) 0);             // Null-terminate the C string
         return memory;                                      // Return the pointer to the memory
     }
+
+    public static Memory memoryFromByteArray(byte[] arr) {
+        Memory buffer = new Memory(arr.length);
+        buffer.write(0, arr, 0, arr.length);
+        return buffer;
+    }
+
+    public static byte[] readByteArrayFromPointer(Pointer pointer, int length) {
+        if (pointer == null) {
+            throw new IllegalArgumentException("Pointer must not be null");
+        }
+        if (length < 0) {
+            throw new IllegalArgumentException("Length must be non-negative");
+        }
+
+        byte[] data = new byte[length];
+        pointer.read(0, data, 0, length);
+        return data;
+    }
+
 }

@@ -1,13 +1,12 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
-import at.yrs4j.api.Yrs4J;
-import at.yrs4j.yrslib.*;
+import at.yrs4j.wrapper.AbstractJNAWrapper;
+import at.yrs4j.wrapper.interfaces.YTransaction;
 import at.yrs4j.yrslib.YrsDeleteSet;
 import at.yrs4j.yrslib.YrsDoc;
 import at.yrs4j.yrslib.YrsPendingUpdate;
 import at.yrs4j.yrslib.YrsTransaction;
-import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 
@@ -54,10 +53,7 @@ public class YTransactionImpl extends AbstractJNAWrapper<YrsTransaction> impleme
     @Override
     public byte[] stateDiffV1(byte[] stateVector) {
         IntByReference len = new IntByReference();
-        Memory buffer = new Memory(stateVector.length);
-        buffer.write(0, stateVector, 0, stateVector.length);
-
-        Pointer binaryData = Yrs4J.YRS_INSTANCE.ytransaction_state_diff_v1(super.wrappedObject, buffer, stateVector.length, len);
+        Pointer binaryData = Yrs4J.YRS_INSTANCE.ytransaction_state_diff_v1(super.wrappedObject, stateVector, stateVector.length, len);
 
         return getBytes(len, binaryData);
     }
@@ -65,10 +61,7 @@ public class YTransactionImpl extends AbstractJNAWrapper<YrsTransaction> impleme
     @Override
     public byte[] stateDiffV2(byte[] stateVector) {
         IntByReference len = new IntByReference();
-        Memory buffer = new Memory(stateVector.length);
-        buffer.write(0, stateVector, 0, stateVector.length);
-
-        Pointer binaryData = Yrs4J.YRS_INSTANCE.ytransaction_state_diff_v2(super.wrappedObject, buffer, stateVector.length, len);
+        Pointer binaryData = Yrs4J.YRS_INSTANCE.ytransaction_state_diff_v2(super.wrappedObject, stateVector, stateVector.length, len);
 
         return getBytes(len, binaryData);
     }
@@ -83,10 +76,8 @@ public class YTransactionImpl extends AbstractJNAWrapper<YrsTransaction> impleme
     @Override
     public byte[] encodeStateFromSnapshotV1(byte[] stateVector) {
         IntByReference len = new IntByReference();
-        Memory buffer = new Memory(stateVector.length);
-        buffer.write(0, stateVector, 0, stateVector.length);
 
-        Pointer binaryData = Yrs4J.YRS_INSTANCE.ytransaction_encode_state_from_snapshot_v1(super.wrappedObject, buffer, stateVector.length, len);
+        Pointer binaryData = Yrs4J.YRS_INSTANCE.ytransaction_encode_state_from_snapshot_v1(super.wrappedObject, stateVector, stateVector.length, len);
 
         return getBytes(len, binaryData);
     }
@@ -94,10 +85,7 @@ public class YTransactionImpl extends AbstractJNAWrapper<YrsTransaction> impleme
     @Override
     public byte[] encodeStateFromSnapshotV2(byte[] stateVector) {
         IntByReference len = new IntByReference();
-        Memory buffer = new Memory(stateVector.length);
-        buffer.write(0, stateVector, 0, stateVector.length);
-
-        Pointer binaryData = Yrs4J.YRS_INSTANCE.ytransaction_encode_state_from_snapshot_v2(super.wrappedObject, buffer, stateVector.length, len);
+        Pointer binaryData = Yrs4J.YRS_INSTANCE.ytransaction_encode_state_from_snapshot_v2(super.wrappedObject, stateVector, stateVector.length, len);
 
         return getBytes(len, binaryData);
     }
@@ -114,22 +102,14 @@ public class YTransactionImpl extends AbstractJNAWrapper<YrsTransaction> impleme
 
     @Override
     public byte apply(byte[] diff) {
-        IntByReference len = new IntByReference();
-        Memory buffer = new Memory(diff.length);
-        buffer.write(0, diff, 0, diff.length);
-
-        byte binaryData = Yrs4J.YRS_INSTANCE.ytransaction_apply(super.wrappedObject, buffer, diff.length);
+        byte binaryData = Yrs4J.YRS_INSTANCE.ytransaction_apply(super.wrappedObject, diff, diff.length);
 
         return binaryData;
     }
 
     @Override
     public byte applyV2(byte[] diff) {
-        IntByReference len = new IntByReference();
-        Memory buffer = new Memory(diff.length);
-        buffer.write(0, diff, 0, diff.length);
-
-        byte binaryData = Yrs4J.YRS_INSTANCE.ytransaction_apply_v2(super.wrappedObject, buffer, diff.length);
+        byte binaryData = Yrs4J.YRS_INSTANCE.ytransaction_apply_v2(super.wrappedObject, diff, diff.length);
 
         return binaryData;
     }

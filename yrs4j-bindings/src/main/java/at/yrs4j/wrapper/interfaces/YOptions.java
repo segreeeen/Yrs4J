@@ -1,6 +1,7 @@
-package at.yrs4j.wrapper;
+package at.yrs4j.wrapper.interfaces;
 
 import at.yrs4j.utils.EncodingType;
+import at.yrs4j.wrapper.impl.YOptionsImpl;
 import at.yrs4j.yrslib.YrsOptions;
 import com.sun.jna.Pointer;
 

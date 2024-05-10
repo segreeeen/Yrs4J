@@ -1,6 +1,7 @@
 package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
+import at.yrs4j.utils.JNAUtils;
 import at.yrs4j.wrapper.interfaces.YDoc;
 import at.yrs4j.wrapper.interfaces.YInput;
 import at.yrs4j.yrslib.YrsInput;
@@ -52,7 +53,7 @@ public class YInputFactory {
 
 
     public static YInput createJsonArray(YInput[] array) {
-        YrsInput[] nativeArray = Arrays.stream(array).map(o -> ((YInputImpl) o).getWrappedObject()).toArray(YrsInput[]::new);
+        YrsInput[] nativeArray = JNAUtils.createYrsInputArray(array);
         YrsInput input = Yrs4J.YRS_INSTANCE.yinput_json_array(nativeArray, array.length);
         return new YInputImpl(input);
     }
@@ -64,20 +65,14 @@ public class YInputFactory {
 
 
     public static YInput createYArray(YInput[] array) {
-        YrsInput arrayRef = new YrsInput();
-        YrsInput[] nativeArray = (YrsInput[]) arrayRef.toArray(array.length);
-
-        for (int i = 0; i< array.length; i++) {
-            YrsInput input = ((YInputImpl) array[i]).getWrappedObject();
-            nativeArray[i].len = input.len;
-            nativeArray[i].tag = input.tag;
-            nativeArray[i].value = input.value;
-        }
+        YrsInput[] nativeArray = JNAUtils.createYrsInputArray(array);
 
         YrsInput input = Yrs4J.YRS_INSTANCE.yinput_yarray(nativeArray, array.length);
 
         return new YInputImpl(input);
     }
+
+
 
 
     public static YInput createYMap(String[] keys, YInput[] value) {

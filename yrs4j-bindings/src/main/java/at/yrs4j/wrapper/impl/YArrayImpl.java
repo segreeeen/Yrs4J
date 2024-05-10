@@ -1,6 +1,7 @@
 package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
+import at.yrs4j.utils.JNAUtils;
 import at.yrs4j.wrapper.AbstractJNAWrapper;
 import at.yrs4j.wrapper.interfaces.*;
 import at.yrs4j.yrslib.YrsBranch;
@@ -8,9 +9,14 @@ import at.yrs4j.yrslib.YrsInput;
 import at.yrs4j.yrslib.YrsOutput;
 import at.yrs4j.yrslib.YrsTransaction;
 
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray {
+    private YTransaction transaction;
+
     public YArrayImpl(YrsBranch wrappedObject) {
         super(wrappedObject);
     }
@@ -41,15 +47,7 @@ public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray 
     @Override
     public void insertRange(YTransaction transaction, int index, YInput[] args) {
         YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
-        YrsInput arrayRef = new YrsInput();
-        YrsInput[] nativeArray = (YrsInput[]) arrayRef.toArray(args.length);
-
-        for (int i = 0; i< args.length; i++) {
-            YrsInput input = ((YInputImpl) args[i]).getWrappedObject();
-            nativeArray[i].len = input.len;
-            nativeArray[i].tag = input.tag;
-            nativeArray[i].value = input.value;
-        }
+        YrsInput[] nativeArray = JNAUtils.createYrsInputArray(args);
 
         Yrs4J.YRS_INSTANCE.yarray_insert_range(wrappedObject, txn, index, nativeArray, nativeArray.length);
     }
@@ -76,4 +74,42 @@ public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray 
 
     }
 
+    @Override
+    public void setTransaction(YTransaction transaction) {
+        this.transaction = transaction;
+    }
+
+    @Override
+    public Iterator<YOutput> iterator() {
+        return new Iterator<>() {
+
+            final YArrayIter iter = iter(transaction);
+            YOutput entry = iter.next();
+
+            @Override
+            public boolean hasNext() {
+                if (entry == null) {
+                    iter.destroy();
+                }
+                return entry != null;
+            }
+
+            @Override
+            public YOutput next() {
+                YOutput current = entry;
+                entry = iter.next();
+                return current;
+            }
+        };
+    }
+
+    @Override
+    public void forEach(Consumer<? super YOutput> action) {
+        YArray.super.forEach(action);
+    }
+
+    @Override
+    public Spliterator<YOutput> spliterator() {
+        return YArray.super.spliterator();
+    }
 }

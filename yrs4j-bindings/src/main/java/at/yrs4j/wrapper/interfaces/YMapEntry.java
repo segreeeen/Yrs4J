@@ -9,4 +9,7 @@ public interface YMapEntry {
     }
 
     void destroy();
+
+    String getKey();
+    YOutput getValue();
 }

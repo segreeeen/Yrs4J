@@ -1,5 +1,8 @@
 package at.yrs4j.utils;
 
+import at.yrs4j.wrapper.impl.YInputImpl;
+import at.yrs4j.wrapper.interfaces.YInput;
+import at.yrs4j.yrslib.YrsInput;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 
@@ -33,4 +36,16 @@ public class JNAUtils {
         return data;
     }
 
+    public static YrsInput[] createYrsInputArray(YInput[] array) {
+        YrsInput arrayRef = new YrsInput();
+        YrsInput[] nativeArray = (YrsInput[]) arrayRef.toArray(array.length);
+
+        for (int i = 0; i< array.length; i++) {
+            YrsInput input = ((YInputImpl) array[i]).getWrappedObject();
+            nativeArray[i].len = input.len;
+            nativeArray[i].tag = input.tag;
+            nativeArray[i].value = input.value;
+        }
+        return nativeArray;
+    }
 }

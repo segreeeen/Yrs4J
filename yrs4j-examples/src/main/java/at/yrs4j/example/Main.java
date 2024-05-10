@@ -13,6 +13,7 @@ public class Main {
         updateExchangeBasic();
         yTextBasic();*/
         yArrayBasic();
+        yMapBasic();
     }
 
     static void example() {
@@ -137,22 +138,46 @@ public class Main {
         arr.removeRange(txn, 1, 1);
 
         System.out.println(arr.len() == 2);
+        arr.setTransaction(txn);
+        arr.forEach(cur -> {
+            switch (cur.getTagValueType()) {
+                case Y_ARRAY -> {
+                    YArray a = cur.readYArray();
+                    System.out.println(a.len() == 2);
+                }
+                case Y_JSON_NUM -> {
+                    System.out.println(cur.readLong() == 123);
+                }
+            }
+        });
 
-        YArrayIter i = arr.iter(txn);
-
-        YOutput cur = i.next();
-        YArray a = cur.readYArray();
-        System.out.println(a.len() == 2);
-
-        cur = i.next();
-        System.out.println(cur.readLong() == 123);
-
-        cur = i.next();
-        System.out.println(cur == null);
-        i.destroy();
         txn.commit();
         doc.destroy();
 
+    }
+
+    static void yMapBasic() {
+        YDoc doc = YDoc.create();
+        YMap map = YMap.createWithDocAndName(doc, "test");
+        YTransaction txn = doc.writeTransaction();
+
+        YInput a = YInput.createString("value");
+        map.insert(txn, "a", a);
+
+        YInput[] array = new YInput[2];
+        array[0] = YInput.createLong(11);
+        array[1] = YInput.createLong(22);
+        YInput b = YInput.createJsonArray(array);
+
+        map.insert(txn, "b", b);
+
+        System.out.println(map.len(txn));
+
+        YMapIter i = map.iter(txn);
+        map.setTransaction(txn);
+
+        map.forEach(e -> System.out.println(e.getKey()));
+        YMapEntry cur = i.next();
     }
 
     static void exchangeUpdates() {

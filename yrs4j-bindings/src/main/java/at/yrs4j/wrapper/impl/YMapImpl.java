@@ -2,16 +2,16 @@ package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
 import at.yrs4j.wrapper.AbstractJNAWrapper;
-import at.yrs4j.wrapper.interfaces.YInput;
-import at.yrs4j.wrapper.interfaces.YMap;
-import at.yrs4j.wrapper.interfaces.YOutput;
-import at.yrs4j.wrapper.interfaces.YTransaction;
-import at.yrs4j.yrslib.YrsBranch;
-import at.yrs4j.yrslib.YrsInput;
-import at.yrs4j.yrslib.YrsOutput;
-import at.yrs4j.yrslib.YrsTransaction;
+import at.yrs4j.wrapper.interfaces.*;
+import at.yrs4j.yrslib.*;
+
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 public class YMapImpl extends AbstractJNAWrapper<YrsBranch> implements YMap {
+
+    private YTransaction transaction;
 
     public YMapImpl(YrsBranch wrappedObject) {
         super(wrappedObject);
@@ -49,5 +49,47 @@ public class YMapImpl extends AbstractJNAWrapper<YrsBranch> implements YMap {
     public void removeAll(YTransaction transaction) {
         YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
         Yrs4J.YRS_INSTANCE.ymap_remove_all(wrappedObject, txn);
+    }
+
+    @Override
+    public YMapIter iter(YTransaction transaction) {
+        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        return YMapIter.wrap(Yrs4J.YRS_INSTANCE.ymap_iter(wrappedObject, txn));
+    }
+
+    @Override
+    public void setTransaction(YTransaction transaction) {
+        this.transaction = transaction;
+    }
+
+    @Override
+    public Iterator<YMapEntry> iterator() {
+        return new Iterator<>() {
+
+            final YMapIter iter = iter(transaction);
+            YMapEntry entry = iter.next();
+
+            @Override
+            public boolean hasNext() {
+                return entry != null;
+            }
+
+            @Override
+            public YMapEntry next() {
+                YMapEntry current = entry;
+                entry = iter.next();
+                return current;
+            }
+        };
+    }
+
+    @Override
+    public void forEach(Consumer<? super YMapEntry> action) {
+        YMap.super.forEach(action);
+    }
+
+    @Override
+    public Spliterator<YMapEntry> spliterator() {
+        return YMap.super.spliterator();
     }
 }

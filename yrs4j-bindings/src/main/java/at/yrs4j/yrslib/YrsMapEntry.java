@@ -16,7 +16,7 @@ public class YrsMapEntry extends Structure {
 	 * Null-terminated string representing an entry's key component. Encoded as UTF-8.<br>
 	 * C type : const char*
 	 */
-	public Pointer key;
+	public String key;
 	/**
 	 * A `YrsOutput` value representing containing variadic content that can be stored withing map's
 <br>
@@ -38,7 +38,7 @@ public class YrsMapEntry extends Structure {
 	 * entry.<br>
 	 * C type : YrsOutput
 	 */
-	public YrsMapEntry(Pointer key, YrsOutput value) {
+	public YrsMapEntry(String key, YrsOutput value) {
 		super();
 		this.key = key;
 		this.value = value;

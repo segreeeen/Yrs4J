@@ -20,6 +20,10 @@ public class YMapIterImpl extends AbstractJNAWrapper<YrsMapIter> implements YMap
     @Override
     public YMapEntry next() {
         YrsMapEntry output = Yrs4J.YRS_INSTANCE.ymap_iter_next(wrappedObject);
-        return YMapEntry.wrap(output);
+        if (output != null) {
+            return YMapEntry.wrap(output);
+        }
+
+        return null;
     }
 }

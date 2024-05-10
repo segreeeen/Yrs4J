@@ -71,6 +71,9 @@ public class YMapImpl extends AbstractJNAWrapper<YrsBranch> implements YMap {
 
             @Override
             public boolean hasNext() {
+                if (entry == null) {
+                    iter.destroy();
+                }
                 return entry != null;
             }
 

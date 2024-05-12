@@ -70,3 +70,25 @@ You need to define the repo in your build script to use the dependencies
 
 ### Mac
 ... Coming soon ...
+
+# Development
+
+## Building from Source
+In the root repository execute 
+
+In windows:
+
+    gradlew.bat build
+
+In linux:
+
+     ./gradlew build
+
+to build all the subprojects. Then use yrs4j-examples as a testing ground for new developments.
+    
+To test your changes with other projects you should be able to use your local maven repo by executing 
+
+    gradlew publishToMavenLocal
+
+The maven packages should then be available in your local repository. You may have to change the version of the project you modified in the gradle.properties file, so that gradle recognizes the new version.
+

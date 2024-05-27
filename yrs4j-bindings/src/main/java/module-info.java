@@ -5,5 +5,4 @@ module yrs4j.bindings {
     exports at.yrs4j.utils;
     exports at.yrs4j.yrslib;
     exports at.yrs4j.wrapper.interfaces;
-    exports at.yrs4j.wrapper.impl;
 }

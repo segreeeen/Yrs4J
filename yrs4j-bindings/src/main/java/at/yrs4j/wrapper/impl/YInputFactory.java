@@ -2,6 +2,7 @@ package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
 import at.yrs4j.utils.JNAUtils;
+import at.yrs4j.wrapper.JNAWrapper;
 import at.yrs4j.wrapper.interfaces.YDoc;
 import at.yrs4j.wrapper.interfaces.YInput;
 import at.yrs4j.yrslib.YrsInput;
@@ -99,7 +100,7 @@ public class YInputFactory {
 
 
     public static YInput createYDoc(YDoc doc) {
-        YrsInput input = Yrs4J.YRS_INSTANCE.yinput_ydoc(((YDocImpl) doc).getWrappedObject());
+        YrsInput input = Yrs4J.YRS_INSTANCE.yinput_ydoc(doc.getWrappedObject());
         return new YInputImpl(input);
     }
 
@@ -108,7 +109,7 @@ public class YInputFactory {
         Integer length = keys.length == value.length ? keys.length : null;
         if (length == null) return null;
 
-        YrsInput[] nativeArray = Arrays.stream(value).map(o -> ((YInputImpl) o).getWrappedObject()).toArray(YrsInput[]::new);
+        YrsInput[] nativeArray = Arrays.stream(value).map(JNAWrapper::getWrappedObject).toArray(YrsInput[]::new);
 
         YrsInput input = Yrs4J.YRS_INSTANCE.yinput_json_map(keys, nativeArray, length);
 

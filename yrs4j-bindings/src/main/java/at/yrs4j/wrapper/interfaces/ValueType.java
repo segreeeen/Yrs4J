@@ -14,7 +14,9 @@ public enum ValueType {
         Y_JSON_MAP(-2),
         Y_JSON_ARR(-3),
         Y_WEAK_LINK(8),
-        Y_TEXT(3);
+        Y_TEXT(3),
+        Y_XML_ELEM(4),
+        Y_XML_TEXT(5);
 
         private final int value;
 

@@ -1,20 +1,20 @@
 package at.yrs4j.wrapper.interfaces;
 
-import at.yrs4j.utils.EncodingType;
+import at.yrs4j.wrapper.JNAWrapper;
 import at.yrs4j.wrapper.impl.YOptionsImpl;
 import at.yrs4j.yrslib.YrsOptions;
 import com.sun.jna.Pointer;
 
-public interface YOptions {
+public interface YOptions extends JNAWrapper<YrsOptions> {
     long getId();
 
     void setId(long id);
 
-    Pointer getGuid();
+    String getGuid();
 
     void setGuid(String guid);
 
-    Pointer getCollectionId();
+    String getCollectionId();
 
     void setCollectionId(String collection_id);
 

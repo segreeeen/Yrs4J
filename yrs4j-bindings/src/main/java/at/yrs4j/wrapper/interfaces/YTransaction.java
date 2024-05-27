@@ -1,12 +1,14 @@
 package at.yrs4j.wrapper.interfaces;
 
+import at.yrs4j.wrapper.JNAWrapper;
 import at.yrs4j.wrapper.impl.YDocImpl;
 import at.yrs4j.yrslib.YrsDeleteSet;
 import at.yrs4j.yrslib.YrsPendingUpdate;
+import at.yrs4j.yrslib.YrsTransaction;
 
 import java.util.List;
 
-public interface YTransaction {
+public interface YTransaction extends JNAWrapper<YrsTransaction> {
     List<YDocImpl> subdocs();
     void commit();
     boolean writeable();

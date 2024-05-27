@@ -11,7 +11,6 @@ import at.yrs4j.yrslib.YrsTransaction;
 
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.Spliterator;
 import java.util.function.Consumer;
 
 public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray {
@@ -38,7 +37,7 @@ public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray 
 
     @Override
     public YOutput get(YTransaction transaction, int index) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
 
         YrsOutput output = Yrs4J.YRS_INSTANCE.yarray_get(wrappedObject, txn, index);
         return YOutput.wrap(output);
@@ -46,7 +45,7 @@ public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray 
 
     @Override
     public void insertRange(YTransaction transaction, int index, YInput[] args) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
         YrsInput[] nativeArray = JNAUtils.createYrsInputArray(args);
 
         Yrs4J.YRS_INSTANCE.yarray_insert_range(wrappedObject, txn, index, nativeArray, nativeArray.length);
@@ -54,24 +53,25 @@ public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray 
 
     @Override
     public void removeRange(YTransaction transaction, int index, int len) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
 
         Yrs4J.YRS_INSTANCE.yarray_remove_range(wrappedObject, txn, index, len);
     }
 
     @Override
     public void move(YTransaction transaction, int source, int target) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
 
         Yrs4J.YRS_INSTANCE.yarray_move(wrappedObject, txn, source, target);
     }
 
     @Override
     public YArrayIter iter(YTransaction transaction) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
 
-        return YArrayIter.wrap(Yrs4J.YRS_INSTANCE.yarray_iter(wrappedObject, txn));
-
+        YArrayIter iter = YArrayIter.wrap(Yrs4J.YRS_INSTANCE.yarray_iter(wrappedObject, txn));
+        registerDestroyable(iter);
+        return iter;
     }
 
     @Override
@@ -81,26 +81,9 @@ public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray 
 
     @Override
     public Iterator<YOutput> iterator() {
-        return new Iterator<>() {
+        if (this.transaction == null) throw new RuntimeException(new IllegalStateException("Transaction is not set"));
 
-            final YArrayIter iter = iter(transaction);
-            YOutput entry = iter.next();
-
-            @Override
-            public boolean hasNext() {
-                if (entry == null) {
-                    iter.destroy();
-                }
-                return entry != null;
-            }
-
-            @Override
-            public YOutput next() {
-                YOutput current = entry;
-                entry = iter.next();
-                return current;
-            }
-        };
+        return new YIteratorImpl<>(iter(transaction));
     }
 
     @Override
@@ -108,8 +91,4 @@ public class YArrayImpl extends AbstractJNAWrapper<YrsBranch> implements YArray 
         YArray.super.forEach(action);
     }
 
-    @Override
-    public Spliterator<YOutput> spliterator() {
-        return YArray.super.spliterator();
-    }
 }

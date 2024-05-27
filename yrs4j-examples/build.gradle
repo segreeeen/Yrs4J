@@ -21,6 +21,7 @@ dependencies {
     implementation project(':yrs4j-bindings')
     implementation project(':yrs4j-native-windows')
     implementation project(':yrs4j-native-linux')
+    implementation 'net.java.dev.jna:jna:5.14.0'
 }
 
 jar {

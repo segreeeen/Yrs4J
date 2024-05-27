@@ -11,12 +11,14 @@ repositories {
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation project(':yrs4j-native-windows')
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation 'net.java.dev.jna:jna:5.14.0'
 }
 
 test {
     useJUnitPlatform()
+    modularity.inferModulePath = true  // Infer test module path
 }
 
 publishing {

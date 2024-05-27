@@ -1,4 +1,4 @@
-package at.yrs4j.utils;
+package at.yrs4j.wrapper.interfaces;
 
 public enum EncodingType {
     Y_OFFSET_BYTES((byte)0),

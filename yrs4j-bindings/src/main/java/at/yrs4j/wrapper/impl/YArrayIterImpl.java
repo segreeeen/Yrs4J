@@ -1,13 +1,14 @@
 package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
+import at.yrs4j.wrapper.AbstractDestroyableJNAWrapper;
 import at.yrs4j.wrapper.AbstractJNAWrapper;
 import at.yrs4j.wrapper.interfaces.YArrayIter;
 import at.yrs4j.wrapper.interfaces.YOutput;
 import at.yrs4j.yrslib.YrsArrayIter;
 import at.yrs4j.yrslib.YrsOutput;
 
-public class YArrayIterImpl extends AbstractJNAWrapper<YrsArrayIter> implements YArrayIter {
+public class YArrayIterImpl extends AbstractDestroyableJNAWrapper<YrsArrayIter> implements YArrayIter {
 
     public YArrayIterImpl(YrsArrayIter wrappedObject) {
         super(wrappedObject);
@@ -16,6 +17,7 @@ public class YArrayIterImpl extends AbstractJNAWrapper<YrsArrayIter> implements 
     @Override
     public void destroy() {
         Yrs4J.YRS_INSTANCE.yarray_iter_destroy(wrappedObject);
+        super.destroy();
     }
 
     @Override

@@ -1,8 +1,10 @@
 package at.yrs4j.wrapper.interfaces;
 
+import at.yrs4j.wrapper.JNAWrapper;
 import at.yrs4j.wrapper.impl.YInputFactory;
+import at.yrs4j.yrslib.YrsInput;
 
-public interface YInput {
+public interface YInput extends JNAWrapper<YrsInput> {
 
     ValueType getTagValueType();
 

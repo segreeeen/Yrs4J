@@ -2,18 +2,19 @@ package at.yrs4j.example;
 
 import at.yrs4j.api.Yrs4J;
 import at.yrs4j.libnative.windows.WindowsLibLoader;
-import at.yrs4j.utils.EncodingType;
+import at.yrs4j.wrapper.interfaces.EncodingType;
 import at.yrs4j.wrapper.interfaces.*;
 
 public class Main {
     public static void main(String[] args) {
         Yrs4J.init(WindowsLibLoader.create());
 
-        /*example();
-        updateExchangeBasic();
-        yTextBasic();*/
-        yArrayBasic();
-        yMapBasic();
+        //example();
+        //updateExchangeBasic();
+        //yTextBasic();
+        //yArrayBasic();
+        //yMapBasic();
+        yXmlElementBasic();
     }
 
     static void example() {
@@ -103,6 +104,8 @@ public class Main {
         txn.commit();
     }
 
+
+
     static void yArrayBasic() {
         YDoc doc = createYDocWithId(1);
         YArray arr = YArray.createWithDocAndName(doc, "test");
@@ -151,10 +154,20 @@ public class Main {
             }
         });
 
+        arr.iterator();
+        arr.iterator();
+
+        arr.cleanup();
+
+        arr.iterator();
+        arr.iterator();
+
         txn.commit();
-        doc.destroy();
+
+        Yrs4J.cleanup();
 
     }
+
 
     static void yMapBasic() {
         YDoc doc = YDoc.create();
@@ -178,6 +191,42 @@ public class Main {
 
         map.forEach(e -> System.out.println(e.getKey()));
         YMapEntry cur = i.next();
+    }
+
+    static void yXmlElementBasic() {
+        YDoc doc = createYDocWithId(1);
+        YXmlElement frag = YXmlElement.createWithDocAndName(doc, "test");
+        YTransaction txn = doc.writeTransaction();
+        YXmlElement xml = frag.insertElem(txn, 0, "div");
+
+        xml.insertAttr(txn, "key1", "value1");
+        xml.insertAttr(txn, "key2", "value2");
+        xml.insertAttr(txn, "key3", "value3");
+        xml.insertAttr(txn, "key4", "value4");
+
+        String a = xml.getAttr(txn, "key1");
+        String b = xml.getAttr(txn, "key2");
+        String c = xml.getAttr(txn, "key3");
+        String d = xml.getAttr(txn, "key4");
+
+        YXmlAttrIter i = xml.attrIter(txn);
+
+        YXmlAttr attr = i.next();
+        while (attr != null){
+            System.out.println("Name: " + attr.getName() + ", Value: " + attr.getValue());
+            attr = i.next();
+
+        }
+
+        YXmlElement inner = xml.insertElem(txn, 0, "p");
+        YXmlText innerTxt = inner.insertText(txn, 0);
+        innerTxt.insert(txn, 0, "hello", null);
+
+        int len = xml.childLen(txn);
+        System.out.println(len + " " + (len == 1));
+
+
+
     }
 
     static void exchangeUpdates() {

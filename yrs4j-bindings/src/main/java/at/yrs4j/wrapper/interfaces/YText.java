@@ -1,10 +1,11 @@
 package at.yrs4j.wrapper.interfaces;
 
+import at.yrs4j.wrapper.JNAWrapper;
 import at.yrs4j.wrapper.impl.YTextImpl;
 import at.yrs4j.yrslib.YrsBranch;
 import at.yrs4j.yrslib.YrsInput;
 
-public interface YText extends YBranch {
+public interface YText extends YBranch, JNAWrapper<YrsBranch> {
 
     int len(YTransaction YTransaction);
 
@@ -18,7 +19,7 @@ public interface YText extends YBranch {
 
     void removeRange(YTransaction YTransaction, int index, int length);
 
-    // Interface methods here (as required)
+    YChunk chunks(YTransaction transaction);
 
     static YText wrap(YrsBranch wrappedObject) {
         return new YTextImpl(wrappedObject);

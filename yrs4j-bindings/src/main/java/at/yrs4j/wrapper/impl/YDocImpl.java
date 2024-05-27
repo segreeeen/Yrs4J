@@ -1,14 +1,15 @@
 package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
-import at.yrs4j.wrapper.AbstractJNAWrapper;
+import at.yrs4j.utils.JNAUtils;
+import at.yrs4j.wrapper.AbstractDestroyableJNAWrapper;
 import at.yrs4j.wrapper.interfaces.YDoc;
 import at.yrs4j.wrapper.interfaces.YTransaction;
 import at.yrs4j.yrslib.YrsDoc;
 import at.yrs4j.yrslib.YrsOptions;
 import at.yrs4j.yrslib.YrsTransaction;
 
-public class YDocImpl extends AbstractJNAWrapper<YrsDoc> implements YDoc {
+public class YDocImpl extends AbstractDestroyableJNAWrapper<YrsDoc> implements YDoc{
 
     public YDocImpl() {
         super(Yrs4J.YRS_INSTANCE.ydoc_new());
@@ -24,6 +25,7 @@ public class YDocImpl extends AbstractJNAWrapper<YrsDoc> implements YDoc {
     @Override
     public void destroy() {
         Yrs4J.YRS_INSTANCE.ydoc_destroy(super.wrappedObject);
+        super.destroy();
     }
 
     @Override
@@ -39,12 +41,12 @@ public class YDocImpl extends AbstractJNAWrapper<YrsDoc> implements YDoc {
 
     @Override
     public String guid() {
-        return Yrs4J.YRS_INSTANCE.ydoc_guid(super.wrappedObject).getString(0);
+        return JNAUtils.getYrsString(Yrs4J.YRS_INSTANCE.ydoc_guid(super.wrappedObject));
     }
 
     @Override
     public String collectionId() {
-        return Yrs4J.YRS_INSTANCE.ydoc_collection_id(super.wrappedObject).getString(0);
+        return JNAUtils.getYrsString(Yrs4J.YRS_INSTANCE.ydoc_collection_id(super.wrappedObject));
     }
 
     @Override

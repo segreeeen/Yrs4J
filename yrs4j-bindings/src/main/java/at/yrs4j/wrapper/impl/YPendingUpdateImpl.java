@@ -1,12 +1,13 @@
 package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
+import at.yrs4j.wrapper.AbstractDestroyableJNAWrapper;
 import at.yrs4j.wrapper.AbstractJNAWrapper;
 import at.yrs4j.wrapper.interfaces.YPendingUpdate;
 import at.yrs4j.yrslib.YrsPendingUpdate;
 import at.yrs4j.yrslib.YrsStateVector;
 
-public class YPendingUpdateImpl extends AbstractJNAWrapper<YrsPendingUpdate> implements YPendingUpdate {
+public class YPendingUpdateImpl extends AbstractDestroyableJNAWrapper<YrsPendingUpdate> implements YPendingUpdate {
     public YPendingUpdateImpl(YrsPendingUpdate wrappedObject) {
         super(wrappedObject);
     }
@@ -14,6 +15,7 @@ public class YPendingUpdateImpl extends AbstractJNAWrapper<YrsPendingUpdate> imp
     @Override
     public void destroy() {
         Yrs4J.YRS_INSTANCE.ypending_update_destroy(super.wrappedObject);
+        super.destroy();
     }
 
     @Override

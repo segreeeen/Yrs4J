@@ -1,7 +1,7 @@
 package at.yrs4j.wrapper.impl;
 
 import at.yrs4j.api.Yrs4J;
-import at.yrs4j.utils.EncodingType;
+import at.yrs4j.wrapper.interfaces.EncodingType;
 import at.yrs4j.utils.JNAUtils;
 import at.yrs4j.wrapper.AbstractJNAWrapper;
 import at.yrs4j.wrapper.interfaces.YOptions;
@@ -31,24 +31,24 @@ public class YOptionsImpl extends AbstractJNAWrapper<YrsOptions> implements YOpt
     }
 
     @Override
-    public Pointer getGuid() {
-        return super.wrappedObject.guid;
+    public String getGuid() {
+        return super.wrappedObject.guid.getString(0);
     }
 
     @Override
     public void setGuid(String guid) {
-        super.wrappedObject.guid = JNAUtils.stringToPointer(guid);
+        super.wrappedObject.guid.setString(0, guid);
         super.wrappedObject.write();  // Ensures the changes are written back to native memory
     }
 
     @Override
-    public Pointer getCollectionId() {
-        return super.wrappedObject.collection_id;
+    public String getCollectionId() {
+        return super.wrappedObject.collection_id.getString(0);
     }
 
     @Override
     public void setCollectionId(String collection_id) {
-        super.wrappedObject.collection_id = JNAUtils.stringToPointer(collection_id);
+        super.wrappedObject.collection_id.setString(0, collection_id);
         super.wrappedObject.write();  // Ensures the changes are written back to native memory
     }
 

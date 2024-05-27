@@ -70,7 +70,7 @@ public class YOutputImpl extends AbstractJNAWrapper<YrsOutput> implements YOutpu
     public byte[] readBinary() {
         if (getTagValueType() == ValueType.Y_JSON_BUF) {
             Pointer buff = Yrs4J.YRS_INSTANCE.youtput_read_binary(super.wrappedObject);
-            JNAUtils.readByteArrayFromPointer(buff, wrappedObject.len);
+            return JNAUtils.readByteArrayFromPointer(buff, wrappedObject.len);
         }
 
         return null;
@@ -128,11 +128,19 @@ public class YOutputImpl extends AbstractJNAWrapper<YrsOutput> implements YOutpu
 
     @Override
     public YXmlElement readYXmlElement() {
+        if (getTagValueType() == ValueType.Y_XML_ELEM) {
+            return YXmlElement.wrap(Yrs4J.YRS_INSTANCE.youtput_read_yxmlelem(super.wrappedObject));
+        }
+
         return null;
     }
 
     @Override
     public YXmlText readYXmlText() {
+        if (getTagValueType() == ValueType.Y_XML_TEXT) {
+            return YXmlText.wrap(Yrs4J.YRS_INSTANCE.youtput_read_yxmltext(super.wrappedObject));
+        }
+
         return null;
     }
 }

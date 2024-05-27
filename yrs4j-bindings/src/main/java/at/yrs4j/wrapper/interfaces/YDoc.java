@@ -1,13 +1,14 @@
 package at.yrs4j.wrapper.interfaces;
 
+import at.yrs4j.wrapper.Destroyable;
+import at.yrs4j.wrapper.JNAWrapper;
 import at.yrs4j.wrapper.impl.YDocImpl;
 import at.yrs4j.wrapper.impl.YOptionsImpl;
 import at.yrs4j.yrslib.YrsDoc;
 import at.yrs4j.yrslib.YrsOptions;
 import at.yrs4j.yrslib.YrsTransaction;
 
-public interface YDoc {
-    void destroy();
+public interface YDoc extends Destroyable, JNAWrapper<YrsDoc> {
     YDoc clone(YDoc YDoc);
     long id();
     String guid();
@@ -26,13 +27,13 @@ public interface YDoc {
     }
 
     // Factory method with YOptions
-    static YDoc createWithOptions(YOptions YOptions) {
-        return new YDocImpl((YrsOptions.ByValue) ((YOptionsImpl) YOptions).getWrappedObject());
+    static YDoc createWithOptions(YOptions options) {
+        return new YDocImpl((YrsOptions.ByValue) options.getWrappedObject());
     }
 
     // Factory method with ID
-    static YDoc createWithId(YOptions YOptions) {
-        return new YDocImpl((YrsOptions.ByValue) ((YOptionsImpl) YOptions).getWrappedObject());
+    static YDoc createWithId(YOptions options) {
+        return new YDocImpl((YrsOptions.ByValue) options.getWrappedObject());
     }
 
     // Factory method for wrapping existing YrsDoc

@@ -1,18 +1,19 @@
 package at.yrs4j.wrapper.interfaces;
 
 import at.yrs4j.api.Yrs4J;
+import at.yrs4j.wrapper.JNAWrapper;
 import at.yrs4j.wrapper.impl.YDocImpl;
 import at.yrs4j.wrapper.impl.YMapImpl;
 import at.yrs4j.yrslib.YrsBranch;
 import at.yrs4j.yrslib.YrsDoc;
 
-public interface YMap extends Iterable<YMapEntry> {
+public interface YMap extends YIterable<YMapEntry>, JNAWrapper<YrsBranch> {
     static YMap wrap(YrsBranch branch) {
         return new YMapImpl(branch);
     }
 
     static YMap createWithDocAndName(YDoc doc, String name) {
-        YrsDoc yrsDoc = ((YDocImpl)doc).getWrappedObject();
+        YrsDoc yrsDoc = doc.getWrappedObject();
 
         return YMap.wrap(Yrs4J.YRS_INSTANCE.ymap(yrsDoc, name));
     }

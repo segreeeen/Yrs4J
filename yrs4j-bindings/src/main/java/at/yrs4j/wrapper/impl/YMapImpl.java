@@ -19,42 +19,45 @@ public class YMapImpl extends AbstractJNAWrapper<YrsBranch> implements YMap {
 
     @Override
     public int len(YTransaction transaction) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
 
         return Yrs4J.YRS_INSTANCE.ymap_len(wrappedObject, txn);
     }
 
     @Override
     public void insert(YTransaction transaction, String key, YInput input) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
-        YrsInput in = ((YInputImpl) input).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
+        YrsInput in = input.getWrappedObject();
 
         Yrs4J.YRS_INSTANCE.ymap_insert(wrappedObject, txn, key, in);
     }
 
     @Override
     public void remove(YTransaction transaction, String key) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
         Yrs4J.YRS_INSTANCE.ymap_remove(wrappedObject, txn, key);
     }
 
     @Override
     public YOutput get(YTransaction transaction, String key) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
         YrsOutput out = Yrs4J.YRS_INSTANCE.ymap_get(wrappedObject, txn, key);
         return YOutput.wrap(out);
     }
 
     @Override
     public void removeAll(YTransaction transaction) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
+        YrsTransaction txn = transaction.getWrappedObject();
         Yrs4J.YRS_INSTANCE.ymap_remove_all(wrappedObject, txn);
     }
 
     @Override
     public YMapIter iter(YTransaction transaction) {
-        YrsTransaction txn = ((YTransactionImpl) transaction).getWrappedObject();
-        return YMapIter.wrap(Yrs4J.YRS_INSTANCE.ymap_iter(wrappedObject, txn));
+        YrsTransaction txn = transaction.getWrappedObject();
+
+        YMapIter iter = YMapIter.wrap(Yrs4J.YRS_INSTANCE.ymap_iter(wrappedObject, txn));
+        registerDestroyable(iter);
+        return iter;
     }
 
     @Override
@@ -64,26 +67,9 @@ public class YMapImpl extends AbstractJNAWrapper<YrsBranch> implements YMap {
 
     @Override
     public Iterator<YMapEntry> iterator() {
-        return new Iterator<>() {
+        if (this.transaction == null) throw new RuntimeException(new IllegalStateException("Transaction is not set"));
 
-            final YMapIter iter = iter(transaction);
-            YMapEntry entry = iter.next();
-
-            @Override
-            public boolean hasNext() {
-                if (entry == null) {
-                    iter.destroy();
-                }
-                return entry != null;
-            }
-
-            @Override
-            public YMapEntry next() {
-                YMapEntry current = entry;
-                entry = iter.next();
-                return current;
-            }
-        };
+        return new YIteratorImpl<>(iter(transaction));
     }
 
     @Override
@@ -91,8 +77,4 @@ public class YMapImpl extends AbstractJNAWrapper<YrsBranch> implements YMap {
         YMap.super.forEach(action);
     }
 
-    @Override
-    public Spliterator<YMapEntry> spliterator() {
-        return YMap.super.spliterator();
-    }
 }

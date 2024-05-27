@@ -1,9 +1,10 @@
 package at.yrs4j.wrapper.interfaces;
 
+import at.yrs4j.wrapper.JNAWrapper;
 import at.yrs4j.wrapper.impl.YArrayImpl;
 import at.yrs4j.yrslib.YrsBranch;
 
-public interface YArray extends Iterable<YOutput> {
+public interface YArray extends YIterable<YOutput>, JNAWrapper<YrsBranch> {
     int len();
     YOutput get(YTransaction transaction, int index);
     void insertRange(YTransaction transaction, int index, YInput[] items);

@@ -13,8 +13,8 @@ This project is split up into 4 subprojects:
 # Usage
 To use Yrs4J add a dependency for the Bindings and for the Native-Lib (may be multiple) your code should run on (see *Artifacts & Repository* section below) . 
 
-    implementation 'at.yrs4j:bindings:0.1.0-alpha'
-    implementation 'at.yrs4j:libnative-windows:0.1.0-alpha'
+    implementation 'at.yrs4j:bindings:0.2.0-alpha'
+    implementation 'at.yrs4j:libnative-windows:0.18.8'
 
 You then can use the bindings like this:
 
@@ -48,7 +48,7 @@ You need to define the repo in your build script to use the dependencies
     <dependency>
         <groupId>at.yrs4j</groupId>
         <artifactId>bindings</artifactId>
-        <version>0.1.0-alpha</version>
+        <version>0.2.0-alpha</version>
     </dependency>
 
 ## Native Libs
@@ -58,14 +58,14 @@ You need to define the repo in your build script to use the dependencies
     <dependency>
         <groupId>at.yrs4j</groupId>
         <artifactId>libnative-linux</artifactId>
-        <version>0.1.0-alpha</version>
+        <version>0.18.8</version>
     </dependency>
 
 ### Windows
     <dependency>
         <groupId>at.yrs4j</groupId>
         <artifactId>libnative-windows</artifactId>
-        <version>0.1.0-alpha</version>
+        <version>0.18.8</version>
     </dependency>
 
 ### Mac
